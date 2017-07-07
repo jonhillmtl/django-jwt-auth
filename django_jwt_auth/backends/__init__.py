@@ -18,11 +18,11 @@ class JSONWebTokenAuthenticationBackend(object):
                 return AnonymousUser()
 
         ud = jwt_to_user_dictionary(token, settings.JWT_KEY)
-        if 'pk' in ud:
+        if 'id' in ud:
             if return_tuples:
-                return User.objects.get(pk=ud['pk']), None
+                return User.objects.get(pk=ud['id']), None
             else:
-                return User.objects.get(pk=ud['pk'])
+                return User.objects.get(pk=ud['id'])
         else:
             if return_tuples:
                 return AnonymousUser(), None
