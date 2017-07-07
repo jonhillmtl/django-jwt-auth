@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='django-jwt-auth',
-      version='0.1',
+      version='0.2',
       description='Django JSON Web Token authentication backend',
       author='Jon Hill',
       author_email='jon@jonhill.ca',

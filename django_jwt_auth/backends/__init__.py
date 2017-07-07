@@ -18,7 +18,7 @@ class JSONWebTokenAuthenticationBackend(object):
             return AnonymousUser()
     
     def get_user(self, user_id):
-		try:
-			return User.objects.get(pk=user_id)
-		except User.DoesNotExist:
-			return None
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
