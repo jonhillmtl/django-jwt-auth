@@ -25,7 +25,7 @@ def user_to_dictionary(user):
     
     return dict(
         username=user.username,
-        pk=user.pk,
+        id=user.pk,
         email=user.email
     )
 
@@ -34,7 +34,7 @@ def user_dictionary_to_jwt(ud, jwt_key):
     assert isinstance(ud, dict)
     assert isinstance(jwt_key, dict)
     assert 'username' in ud
-    assert 'pk' in ud
+    assert 'id' in ud
     assert 'email' in ud
     
     key = jwk.JWK(**jwt_key)
