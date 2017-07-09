@@ -18,17 +18,20 @@ def jwt_encryption_enc():
 # TODO JHILL: validate that the above fit into allowed encryption schemes
 
 def user_to_dictionary(user):
-    assert isinstance(user, User)
-    assert hasattr(user, 'username')
-    assert hasattr(user, 'pk')
-    assert hasattr(user, 'email')
-    
-    return dict(
-        username=user.username,
-        id=user.pk,
-        email=user.email
-    )
+    from django.forms.models import model_to_dict
+    ud = model_to_dict(user)
+    for k, v in ud.items():
+        if type(v) not in [str, int, bool]:
+            ud[k] = str(ud[k])
+    del ud['password']
+    return ud
 
+def user_dictionary_to_user(ud):
+    user = User()
+    for k, v in ud.items():
+        if k not in ['groups', 'user_permissions', 'password']:
+            setattr(user, k, v)
+    return user
 
 def user_dictionary_to_jwt(ud, jwt_key):
     assert isinstance(ud, dict)
@@ -36,7 +39,7 @@ def user_dictionary_to_jwt(ud, jwt_key):
     assert 'username' in ud
     assert 'id' in ud
     assert 'email' in ud
-    
+
     key = jwk.JWK(**jwt_key)
     jwtoken = jwt.JWT(
         header={"alg": jwt_alg()},
